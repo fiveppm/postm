@@ -1,0 +1,366 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import NetworkIcon from '../components/NetworkIcon.astro';
+
+const statusChip: Record<string, string> = {
+  Scheduled: 'bg-paper-dim text-ink',
+  Publishing: 'bg-coral/15 text-ink',
+  Published: 'bg-lime text-ink',
+  Failed: 'bg-coral text-ink',
+  'Needs check': 'bg-ink text-paper',
+  Draft: 'bg-paper-dim text-ink-mute',
+};
+---
+
+<BaseLayout
+  title="Features"
+  description="Visual content calendar, composer with per-network previews, media library, scheduling and time slots, publishing status and history, team workspaces — and per-network settings that match each platform."
+  canonicalPath="/features"
+>
+  <Header />
+
+  <main>
+    <section class="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16">
+      <SectionLabel label="features" />
+      <h1 class="display-lg mt-4 max-w-3xl">
+        Everything you need to publish calmly — and nothing you don't.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-mute">
+        One composer, one calendar, one media library. The interface below is the real
+        layout of the product, drawn in HTML — what you see is what you get.
+      </p>
+    </section>
+
+    <!-- 1. Calendar -->
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <div data-reveal>
+          <SectionLabel label="visual content calendar" />
+          <h2 class="display-md mt-4">The week at a glance.</h2>
+          <p class="mt-4 leading-relaxed text-ink-mute">
+            Every scheduled post lives on one grid, across all your channels. Drag posts
+            between days, spot the gaps, and keep the rhythm of each network visible in one
+            place. Colors and labels are per channel, so a mixed week still reads clearly.
+          </p>
+          <ul class="mt-6 space-y-2 text-ink-mute">
+            <li class="flex gap-3"><span class="mono-label text-ink">01</span> Day and week views</li>
+            <li class="flex gap-3"><span class="mono-label text-ink">02</span> Drag &amp; drop to reschedule</li>
+            <li class="flex gap-3"><span class="mono-label text-ink">03</span> Post status shown on the card</li>
+          </ul>
+        </div>
+
+        <div class="card overflow-hidden" data-reveal>
+          <div class="flex items-center justify-between border-b border-paper-line bg-paper-dim px-4 py-2.5">
+            <p class="mono-label text-ink-mute">// calendar · week 32</p>
+            <p class="mono-label text-ink-mute">aug 04 – aug 10</p>
+          </div>
+          <div class="grid grid-cols-3 gap-2 p-3 sm:grid-cols-5">
+            {
+              [
+                ['Mon', [['09:30', 'Launch notes', 'Published'], ['14:00', 'Hiring post', 'Scheduled']]],
+                ['Tue', [['11:00', 'Studio tour', 'Scheduled']]],
+                ['Wed', [['18:00', 'Drop teaser', 'Scheduled']]],
+                ['Thu', [['16:30', 'AMA draft', 'Draft']]],
+                ['Fri', [['08:00', 'Changelog #12', 'Failed']]],
+              ].map(([day, cards]) => (
+                <div class="min-w-0">
+                  <p class="mono-label mb-2 text-[10px] text-ink-mute">{day}</p>
+                  <div class="space-y-2">
+                    {(cards as string[][]).map(([time, title, status]) => (
+                      <article class="rounded-xl border border-paper-line bg-white px-2 py-2">
+                        <p class="mono-label text-[9px] text-ink-mute">{time}</p>
+                        <p class="mt-1 truncate text-xs font-semibold">{title}</p>
+                        <p class:list={['mono-label mt-1.5 inline-block rounded-full px-1.5 py-0.5 text-[8px]', statusChip[status]]}>
+                          {status}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Composer -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div class="order-2 lg:order-1" data-reveal>
+            <div class="card bg-white text-ink">
+              <div class="border-b border-paper-line px-4 py-3">
+                <p class="mono-label text-ink-mute">// composer</p>
+              </div>
+              <div class="space-y-3 p-4">
+                <div class="flex flex-wrap gap-1.5">
+                  {
+                    [
+                      ['youtube', 'YouTube', true],
+                      ['bluesky', 'Bluesky', true],
+                      ['x', 'X', false],
+                    ].map(([icon, name, active]) => (
+                      <span
+                        class:list={[
+                          'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium',
+                          active ? 'border-ink bg-lime' : 'border-paper-line bg-white text-ink-mute',
+                        ]}
+                      >
+                        <NetworkIcon icon={icon as string} name={name as string} class="h-3 w-3" />
+                        {name}
+                      </span>
+                    ))
+                  }
+                </div>
+                <div class="rounded-xl border border-paper-line bg-paper px-3 py-2.5">
+                  <p class="mono-label text-[9px] text-ink-mute">youtube · preview</p>
+                  <div class="mt-2 aspect-[16/9] max-h-36 rounded-lg bg-gradient-to-br from-ink to-ink-mute"></div>
+                  <p class="mt-2 text-xs">Drop teaser — scheduled Fri 18:00.</p>
+                </div>
+                <div class="rounded-xl border border-paper-line bg-paper px-3 py-2.5">
+                  <p class="mono-label text-[9px] text-ink-mute">bluesky · preview</p>
+                  <p class="mt-1.5 text-xs leading-relaxed">
+                    Drop teaser is live tomorrow. Full breakdown on the blog →
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2">
+            <SectionLabel label="composer" tone="lime" />
+            <h2 class="display-md mt-4">Create once, tailor per network.</h2>
+            <p class="mt-4 leading-relaxed text-paper/70">
+              Write the post a single time, then adjust media, caption and settings for each
+              network. Per-network previews show how the post will look before you approve
+              it — character limits, attachment rules and platform settings included.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Media library -->
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <div data-reveal>
+          <SectionLabel label="media library" />
+          <h2 class="display-md mt-4">Upload once, reuse everywhere.</h2>
+          <p class="mt-4 leading-relaxed text-ink-mute">
+            Images and videos stay in your workspace library with the metadata you need to
+            pick the right asset fast. Attach to any post, on any network, without
+            re-uploading.
+          </p>
+        </div>
+
+        <div class="card p-4" data-reveal>
+          <div class="grid grid-cols-3 gap-2">
+            {
+              [
+                ['drop-teaser.mp4', 'from-lime to-lime-deep'],
+                ['studio-tour.mp4', 'from-ink to-ink-mute'],
+                ['launch-notes.jpg', 'from-coral to-[#ff9a8b]'],
+                ['recap-cover.jpg', 'from-paper-dim to-paper-line'],
+                ['ama-card.png', 'from-ink-mute to-paper-line'],
+                ['changelog.png', 'from-lime-deep to-paper-dim'],
+              ].map(([name, grad]) => (
+                <figure>
+                  <div class={`aspect-square rounded-xl bg-gradient-to-br ${grad}`} />
+                  <figcaption class="mono-label mt-1.5 truncate text-[9px] text-ink-mute">{name}</figcaption>
+                </figure>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Scheduling -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div class="order-2 lg:order-1" data-reveal>
+            <div class="card bg-white text-ink">
+              <div class="border-b border-paper-line px-4 py-3">
+                <p class="mono-label text-ink-mute">// schedule</p>
+              </div>
+              <div class="space-y-3 p-4">
+                <div class="flex items-center justify-between rounded-xl border border-ink bg-lime px-3 py-2.5">
+                  <p class="text-sm font-semibold">Wed 14 Aug · 18:00</p>
+                  <p class="mono-label text-[10px]">local time</p>
+                </div>
+                <div>
+                  <p class="mono-label text-[10px] text-ink-mute">time slots</p>
+                  <div class="mt-2 flex flex-wrap gap-1.5">
+                    {
+                      ['08:00', '12:30', '18:00', '20:15', '09:30 · Tue', '14:00 · Fri'].map((t, i) => (
+                        <span
+                          class:list={[
+                            'mono-label rounded-full border px-2.5 py-1 text-[10px]',
+                            i === 2 ? 'border-ink bg-lime' : 'border-paper-line text-ink-mute',
+                          ]}
+                        >
+                          {t}
+                        </span>
+                      ))
+                    }
+                  </div>
+                </div>
+                <div class="rounded-xl border border-paper-line px-3 py-2.5">
+                  <p class="mono-label text-[10px] text-ink-mute">repeat</p>
+                  <p class="mt-1 text-sm">Weekly, until Sep 30</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2">
+            <SectionLabel label="scheduling & time slots" tone="lime" />
+            <h2 class="display-md mt-4">Pick a time — or fill the slots.</h2>
+            <p class="mt-4 leading-relaxed text-paper/70">
+              Schedule posts to an exact time in your own timezone, or define recurring
+              slots and drop posts into them. Rescheduling is one drag; the post keeps its
+              settings and media.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Publishing status -->
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <div class="grid items-center gap-10 lg:grid-cols-2">
+        <div data-reveal>
+          <SectionLabel label="publishing status & history" />
+          <h2 class="display-md mt-4">Know exactly what happened.</h2>
+          <p class="mt-4 leading-relaxed text-ink-mute">
+            Every post carries its state through the pipeline — draft, scheduled,
+            publishing, published, failed or needs check. When something fails, you get a
+            readable reason and a retry, not a shrug. The history keeps the trail of what
+            was published where and when.
+          </p>
+        </div>
+
+        <div class="card p-4" data-reveal>
+          <div class="space-y-2">
+            {
+              [
+                ['Drop teaser', 'TikTok · 18:00', 'Published'],
+                ['Studio tour', 'YouTube · 11:00', 'Publishing'],
+                ['Hiring post', 'LinkedIn · 14:00', 'Scheduled'],
+                ['Changelog #12', 'WordPress · 08:00', 'Failed'],
+                ['AMA draft', 'Reddit · 16:30', 'Needs check'],
+              ].map(([title, meta, status]) => (
+                <article class="flex items-center gap-3 rounded-xl border border-paper-line px-3 py-2.5">
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-semibold">{title}</p>
+                    <p class="mono-label text-[9px] text-ink-mute">{meta}</p>
+                  </div>
+                  <p class:list={['mono-label rounded-full px-2 py-1 text-[9px]', statusChip[status]]}>
+                    {status}
+                  </p>
+                </article>
+              ))
+            }
+          </div>
+          <p class="mt-3 rounded-xl border border-coral bg-coral/10 px-3 py-2 text-xs leading-relaxed">
+            Changelog #12 · failed: the site rejected the request (401). Reconnect the
+            channel and retry.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Teams -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div class="order-2 lg:order-1" data-reveal>
+            <div class="card bg-white text-ink">
+              <div class="border-b border-paper-line px-4 py-3">
+                <p class="mono-label text-ink-mute">// workspace · members</p>
+              </div>
+              <ul class="divide-y divide-paper-line">
+                {
+                  [
+                    ['AS', 'Alex Smith', 'Owner'],
+                    ['JR', 'Jamie Rivera', 'Editor'],
+                    ['MK', 'Morgan Kim', 'Editor'],
+                  ].map(([initials, name, role]) => (
+                    <li class="flex items-center gap-3 px-4 py-3">
+                      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-paper-dim font-mono text-xs font-bold">
+                        {initials}
+                      </span>
+                      <p class="flex-1 text-sm font-semibold">{name}</p>
+                      <p class="mono-label rounded-full border border-paper-line px-2 py-0.5 text-[9px] text-ink-mute">
+                        {role}
+                      </p>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+
+          <div class="order-1 lg:order-2">
+            <SectionLabel label="team workspaces" tone="lime" />
+            <h2 class="display-md mt-4">One calendar for the whole team.</h2>
+            <p class="mt-4 leading-relaxed text-paper/70">
+              Invite your team to a shared workspace: common calendar, common media library,
+              connected channels in one place. Everyone sees what is going out — and what
+              needs attention.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Per-network settings -->
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <SectionLabel label="per-network settings" />
+      <h2 class="display-md mt-4 max-w-2xl">Settings that match each platform, not a generic box.</h2>
+      <p class="mt-4 max-w-2xl leading-relaxed text-ink-mute">
+        Every network has its own rules — so the composer carries the switches each one
+        actually exposes, shown to you before anything is sent.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          [
+            ['Visibility', 'Where a platform lets you choose who can see the post, you choose at scheduling time — no silent default.'],
+            ['Interaction toggles', 'Comments, sharing, remixes — the switches a platform exposes are per post, not buried in account settings.'],
+            ['Commercial disclosure', 'Where platforms require commercial content disclosure, it is a first-class setting with the notice they mandate.'],
+            ['Account context', 'See exactly which account you are posting to — name and avatar — before publishing.'],
+            ['Preview & confirm', 'Preview the final post and confirm explicitly. Nothing is sent on a stray click.'],
+            ['Status tracking', 'Publishing status follows the post into the calendar and publications history.'],
+          ].map(([title, body], i) => (
+            <article class="card card-hover p-6" data-reveal style={`--reveal-delay: ${(i % 3) * 80}ms`}>
+              <h3 class="text-lg font-bold">{title}</h3>
+              <p class="mt-2 leading-relaxed text-ink-mute">{body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+      <div class="rounded-[2rem] border border-ink bg-lime px-6 py-12 text-center sm:px-12">
+        <h2 class="display-md">See it on your own calendar.</h2>
+        <p class="mx-auto mt-4 max-w-xl leading-relaxed">
+          Early Access is free and invite-only. Request access and we will reply within 3
+          business days.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/request-access" class="btn btn-dark">Request access</a>
+          <a href="/networks" class="btn btn-ghost">See all networks</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

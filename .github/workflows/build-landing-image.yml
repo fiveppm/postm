@@ -1,0 +1,86 @@
+# postmonster: landing image build -> GHCR (static marketing site on
+# postmonster.xyz, sources in landing/). Same flow as build-image.yml:
+# push to main builds and pushes the image, Coolify only pulls it.
+name: Build and Push Landing Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'landing/**'
+      - '.github/workflows/build-landing-image.yml'
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  # Lowercase image name: ghcr.io/<owner>/postmonster-landing
+  IMAGE_NAME: ${{ github.repository_owner }}/postmonster-landing
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check network registry sync
+        # networks.ts must match the provider registry in libraries/ (PRD 5.3)
+        run: node landing/scripts/sync-networks.mjs
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker metadata (tags)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main' }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./landing
+          file: ./landing/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          sbom: false
+          # PUBLIC_* are inlined into the static bundle at build time (same
+          # trap as NEXT_PUBLIC_* for the app): the image is domain-specific.
+          # Defaults in the Dockerfile are already production values; they are
+          # repeated here for visibility - change both together.
+          build-args: |
+            PUBLIC_APP_URL=https://app.postmonster.xyz
+            PUBLIC_APP_API_URL=https://app.postmonster.xyz/api
+            PUBLIC_SOURCE_CODE_URL=https://github.com/fiveppm/postm
+
+      - name: Summary
+        run: |
+          {
+            echo "### Landing image published"
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

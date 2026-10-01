@@ -1,0 +1,22 @@
+---
+// postmonster: scrolling band of every supported network (decorative).
+// The set comes from networks.ts — nothing invented.
+import { networks } from '../data/networks';
+import NetworkIcon from './NetworkIcon.astro';
+
+const items = [...networks, ...networks];
+---
+
+<div class="marquee border-y border-ink-line bg-ink py-4 text-paper" aria-hidden="true">
+  <div class="marquee-track items-center gap-8 px-4">
+    {
+      items.map((n) => (
+        <span class="flex shrink-0 items-center gap-2">
+          <NetworkIcon icon={n.icon} name={n.name} class="h-4 w-4 shrink-0 text-[8px] text-paper/70" />
+          <span class="mono-label whitespace-nowrap text-[10px] text-paper/60">{n.name}</span>
+          <span class="ml-6 text-lime/50">·</span>
+        </span>
+      ))
+    }
+  </div>
+</div>

@@ -151,6 +151,9 @@ services:
   # site answers 504 on every path (docs/deploy.md, section 3b).
   landing:
     image: ghcr.io/fiveppm/postmonster-landing:${LANDING_IMAGE_TAG:-latest}
+    # postmonster: with the floating :latest tag a plain Redeploy must not
+    # reuse a cached image - force a pull on every `up`.
+    pull_policy: always
     restart: unless-stopped
     expose:
       - '80'

@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Mascot from '../components/Mascot.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="This page does not exist — but the calendar does."
+  canonicalPath="/404"
+  noindex={true}
+>
+  <Header />
+
+  <main class="mx-auto flex max-w-3xl flex-col items-center px-4 py-20 text-center sm:px-6">
+    <SectionLabel label="404" />
+    <Mascot size={96} variant="ink-on-lime" class="mt-8" />
+    <h1 class="display-lg mt-8">This page slipped out of the calendar.</h1>
+    <p class="mt-5 max-w-md text-lg leading-relaxed text-ink-mute">
+      The link may be old, or the post was rescheduled. Everything else is where you left
+      it.
+    </p>
+    <div class="mt-9 flex flex-wrap justify-center gap-3">
+      <a href="/" class="btn btn-primary">Back to home</a>
+      <a href="/request-access" class="btn btn-ghost">Request access</a>
+    </div>
+    <p class="mono-label mt-10 text-ink-mute">// 404 · not found</p>
+  </main>
+
+  <Footer />
+</BaseLayout>

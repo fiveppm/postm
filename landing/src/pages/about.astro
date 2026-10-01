@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { emails, site } from '../data/site';
+---
+
+<BaseLayout
+  title="About"
+  description="Postmonster is built by a creator who needed a calm way to publish everywhere — on top of the open-source Postiz project, licensed under AGPL-3.0."
+  canonicalPath="/about"
+>
+  <Header />
+
+  <main>
+    <section class="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16">
+      <SectionLabel label="about" />
+      <h1 class="display-lg mt-4 max-w-3xl">
+        Built by a creator who needed a calm way to publish everywhere.
+      </h1>
+      <div class="mt-8 max-w-2xl space-y-5 text-lg leading-relaxed text-ink-mute">
+        <p>
+          Postmonster started as a personal tool: too many networks, too many tabs, and a
+          publishing routine that felt more like firefighting than editing. The goal was
+          simple — one calendar, honest status reporting, and settings that match how each
+          platform actually works.
+        </p>
+        <p>
+          It is run by the {site.operatorName} team. Small product, small batches, direct
+          contact: when you write to support, a human answers.
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <div class="grid gap-10 lg:grid-cols-2">
+        <article class="card p-8">
+          <SectionLabel label="open source" />
+          <h2 class="display-md mt-4">Standing on open source.</h2>
+          <p class="mt-4 leading-relaxed text-ink-mute">
+            Postmonster is built on the open-source Postiz project and is licensed under
+            AGPL-3.0. The fork is public: the source code of the deployed version is
+            available to everyone, including changes we make on top of upstream.
+          </p>
+          <p class="mt-4 leading-relaxed text-ink-mute">
+            We keep the fork readable — product changes live in separate modules where
+            possible — and publish source alongside each deploy, as the license requires.
+          </p>
+          <a
+            href={site.sourceCodeUrl}
+            target="_blank"
+            rel="noopener"
+            class="btn btn-ghost mt-6"
+          >
+            Source code
+          </a>
+        </article>
+
+        <article class="card p-8">
+          <SectionLabel label="what we believe" />
+          <h2 class="display-md mt-4">No fake numbers. No fake logos.</h2>
+          <ul class="mt-4 space-y-4 leading-relaxed text-ink-mute">
+            <li class="flex gap-3">
+              <span class="mono-label mt-1 shrink-0 text-ink">01</span>
+              <span
+                ><strong class="font-semibold text-ink">Honest scope.</strong> We show what
+                the product does — and what it does not.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="mono-label mt-1 shrink-0 text-ink">02</span>
+              <span
+                ><strong class="font-semibold text-ink">Platform rules matter.</strong>
+                Disclosure and privacy settings are first-class, because the platforms
+                require them and your audience deserves them.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="mono-label mt-1 shrink-0 text-ink">03</span>
+              <span
+                ><strong class="font-semibold text-ink">Your data, your exit.</strong>
+                Disconnect a channel or delete your account whenever you want.</span
+              >
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+      <div class="rounded-[2rem] border border-ink bg-ink px-6 py-12 text-center text-paper sm:px-12">
+        <h2 class="display-md">Want in?</h2>
+        <p class="mx-auto mt-4 max-w-xl leading-relaxed text-paper/70">
+          Early Access is free and invite-only. Or just say hello — both inboxes are open.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/request-access" class="btn btn-on-dark">Request access</a>
+          <a href={`mailto:${emails.hello}`} class="btn btn-ghost-on-dark">{emails.hello}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,207 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { emails, site } from '../data/site';
+
+const toc = [
+  { id: 'who-we-are', title: '1. Who we are' },
+  { id: 'what-we-collect', title: '2. What we collect' },
+  { id: 'tiktok', title: '3. TikTok data' },
+  { id: 'how-we-use', title: '4. How we use data' },
+  { id: 'legal-bases', title: '5. Legal bases' },
+  { id: 'retention', title: '6. Storage and retention' },
+  { id: 'sub-processors', title: '7. Sub-processors' },
+  { id: 'cookies', title: '8. Cookies and tracking' },
+  { id: 'your-rights', title: '9. Your rights' },
+  { id: 'deletion', title: '10. Deleting your account' },
+  { id: 'security', title: '11. Security' },
+  { id: 'children', title: '12. Children' },
+  { id: 'platforms', title: '13. Platform policies' },
+  { id: 'changes', title: '14. Changes' },
+  { id: 'contact', title: '15. Contact' },
+];
+---
+
+<LegalLayout
+  title="Privacy Policy"
+  description="How Postmonster handles your data: what we collect (account, content, connected channels), why, how long we keep it, your rights and how to delete your account."
+  canonicalPath="/privacy"
+  toc={toc}
+>
+  <p class="note">
+    This policy is written in plain language and is a working document for Early Access.
+    It is reviewed and signed off by the operator. Effective date: {site.effectiveDate}.
+  </p>
+
+  <h2 id="who-we-are">1. Who we are</h2>
+  <p>
+    Postmonster is operated by {site.legalName} ({site.country}), contact
+    <a href={`mailto:${emails.privacy}`}>{emails.privacy}</a>. In this policy, "we", "us"
+    and "Postmonster" refer to this service and its operator; "you" refers to the user of
+    the service or visitor of {site.url}.
+  </p>
+
+  <h2 id="what-we-collect">2. What we collect</h2>
+  <ul>
+    <li>
+      <strong>Account data:</strong> your name, email address, password (stored hashed) and
+      workspace membership.
+    </li>
+    <li>
+      <strong>Access requests:</strong> if you request Early Access, we store the details
+      you submit — name, email, role, main networks, team size and what you want to use
+      Postmonster for — plus the request status.
+    </li>
+    <li>
+      <strong>Content:</strong> the posts you write and schedule, and the images or videos
+      you upload to the media library.
+    </li>
+    <li>
+      <strong>Connected channels:</strong> for each network you connect, the identifiers of
+      the account (such as display name, username and avatar URL) and the access tokens
+      needed to publish on your behalf. Disconnecting a channel deletes its tokens.
+    </li>
+    <li>
+      <strong>Operational data:</strong> publishing results and statuses, error messages
+      from networks, and basic service logs needed to run and secure the service.
+    </li>
+    <li>
+      <strong>Communications:</strong> emails you send us and the replies.
+    </li>
+  </ul>
+  <p>
+    We do not buy contact lists and we do not enrich your profile with data from
+    third-party brokers.
+  </p>
+
+  <h2 id="tiktok">3. TikTok data</h2>
+  <p>
+    When you connect a TikTok account through TikTok's Content Posting API, we receive and
+    store: your TikTok open_id, display name and username, profile picture URL, the OAuth
+    access and refresh tokens, and the identifiers and statuses of the posts you publish
+    (publish_id and status).
+  </p>
+  <p>
+    We do not store your TikTok videos outside the content you upload for scheduling, and
+    we do not collect follower analytics or other audience data. Tokens are used only to
+    publish the posts you create. Disconnecting the TikTok channel revokes and removes the
+    tokens immediately.
+  </p>
+
+  <h2 id="how-we-use">4. How we use data</h2>
+  <ul>
+    <li>Provide the service: scheduling, publishing, status tracking, previews.</li>
+    <li>Send transactional emails: account activation, invites, publishing failures, replies.</li>
+    <li>Review Early Access requests and onboard small batches.</li>
+    <li>Keep the service secure: abuse prevention, rate limiting, incident investigation.</li>
+    <li>Comply with legal obligations.</li>
+  </ul>
+  <p>We do not use your content to train models and we do not sell personal data.</p>
+
+  <h2 id="legal-bases">5. Legal bases</h2>
+  <p>
+    Where the GDPR applies, we rely on: performance of a contract (providing the service
+    you signed up for), legitimate interests (security, abuse prevention, improving
+    reliability), consent (where we ask for it — for example receiving non-essential
+    emails), and legal obligation (accounting and law-enforcement requests).
+  </p>
+
+  <h2 id="retention">6. Storage and retention</h2>
+  <p>
+    We keep account and content data while your account is active. Publishing history is
+    kept with your workspace so you can audit what went out. When you delete your account,
+    we delete personal data and content without undue delay; access tokens are removed
+    immediately, and residual copies in backups age out within 30 days. Access requests
+    that do not convert to accounts are kept for up to 12 months (or less on request), so
+    we can follow up and avoid duplicates.
+  </p>
+
+  <h2 id="sub-processors">7. Sub-processors</h2>
+  <p>
+    We use a small set of sub-processors to run the service:
+  </p>
+  <ul>
+    <li><strong>Hosting:</strong> the server operator providing the compute and storage.</li>
+    <li>
+      <strong>Email delivery:</strong> a transactional email provider for activation,
+      invites and notifications.
+    </li>
+    <li>
+      <strong>Networks you connect:</strong> content is delivered to the platforms you
+      choose (TikTok, YouTube, etc.) under their own terms and privacy policies.
+    </li>
+  </ul>
+  <p>
+    The current list is available on request at
+    <a href={`mailto:${emails.privacy}`}>{emails.privacy}</a>.
+  </p>
+
+  <h2 id="cookies">8. Cookies and tracking</h2>
+  <p>
+    This website ({site.url}) uses no cookies, no analytics and no third-party trackers.
+    The application (app.postmonster.xyz) uses a session cookie that is strictly necessary
+    to keep you logged in.
+  </p>
+
+  <h2 id="your-rights">9. Your rights</h2>
+  <p>
+    Subject to applicable law, you can request access to your personal data, correction,
+    deletion, export (data portability), restriction or objection, and withdraw consent
+    where processing is consent-based. Write to
+    <a href={`mailto:${emails.privacy}`}>{emails.privacy}</a> — we answer within 30 days.
+    You can also lodge a complaint with your local data protection authority.
+  </p>
+
+  <h2 id="deletion">10. Deleting your account</h2>
+  <p>
+    You can delete your account yourself in Settings (account deletion requires typing
+    your email to confirm). This removes your profile, workspaces you solely own,
+    connected channel tokens (revoked first), media, posts and scheduling data. If you
+    share a workspace with other members, you can leave the workspace and the owner keeps
+    the team content. A confirmation email is sent either way.
+  </p>
+
+  <h2 id="security">11. Security</h2>
+  <p>
+    Traffic is encrypted in transit (HTTPS). Access to production data is limited to the
+    operator, and access tokens for connected channels are stored for use by the service
+    only. No system is perfect: if we learn of a breach affecting your data, we will
+    notify you and the competent authorities as required by law.
+  </p>
+
+  <h2 id="children">12. Children</h2>
+  <p>
+    Postmonster is not directed at children. You must be at least 16 (or the minimum age
+    required in your country, e.g. 13 in the US) to use the service. If you believe a
+    child has given us personal data, contact us and we will delete it.
+  </p>
+
+  <h2 id="platforms">13. Platform policies</h2>
+  <p>
+    When you connect third-party networks, their own policies apply to the data they
+    process — for example the
+    <a href="https://www.tiktok.com/legal/privacy-policy" rel="noopener nofollow" target="_blank"
+      >TikTok Privacy Policy</a
+    >, the
+    <a
+      href="https://developers.google.com/terms/api-services-user-data-policy"
+      rel="noopener nofollow"
+      target="_blank">Google API Services User Data Policy</a
+    > for YouTube and Google, and Meta's policies for Instagram and Facebook. Our use of
+    data received from those platforms is limited to the purposes described here.
+  </p>
+
+  <h2 id="changes">14. Changes</h2>
+  <p>
+    If this policy changes materially, we will update this page and note the new effective
+    date. For material changes that affect your rights, we will notify account holders by
+    email.
+  </p>
+
+  <h2 id="contact">15. Contact</h2>
+  <p>
+    Privacy questions, data requests and complaints:
+    <a href={`mailto:${emails.privacy}`}>{emails.privacy}</a>. General contact:
+    <a href={`mailto:${emails.hello}`}>{emails.hello}</a>. Operator: {site.legalName},
+    {site.country}.
+  </p>
+</LegalLayout>

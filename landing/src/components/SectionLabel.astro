@@ -1,0 +1,17 @@
+---
+interface Props {
+  label: string;
+  class?: string;
+  tone?: 'ink' | 'paper' | 'lime' | 'coral';
+}
+
+const { label, class: cls = '', tone = 'ink' } = Astro.props;
+const toneClass = {
+  ink: 'text-ink-mute',
+  paper: 'text-paper/60',
+  lime: 'text-lime',
+  coral: 'text-coral',
+}[tone];
+---
+
+<p class:list={['mono-label', toneClass, cls]}>// {label}</p>

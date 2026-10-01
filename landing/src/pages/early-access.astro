@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Mascot from '../components/Mascot.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+---
+
+<BaseLayout
+  title="Early Access"
+  description="Postmonster is in Early Access: free while we harden the product, invite-only, onboarded in small batches. Who it is for, what is included and how onboarding works."
+  canonicalPath="/early-access"
+>
+  <Header />
+
+  <main>
+    <section class="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16">
+      <SectionLabel label="early access" />
+      <h1 class="display-lg mt-4 max-w-3xl">Free, invite-only, and small-batch on purpose.</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-mute">
+        Postmonster is usable today, but it is early: we onboard a few workspaces at a time,
+        listen hard, and fix fast. No credit card, no charges during Early Access, no
+        pretending we are a 200-person company.
+      </p>
+    </section>
+
+    <!-- who -->
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <div class="grid gap-10 lg:grid-cols-3">
+        <div class="lg:col-span-1">
+          <SectionLabel label="who it is for" />
+          <h2 class="display-md mt-4">A fit if…</h2>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:col-span-2">
+          {
+            [
+              ['Creators', 'You publish to a handful of networks yourself and want one calm calendar instead of five tabs.'],
+              ['Small teams', 'Two to fifteen people sharing a content calendar, media and channels.'],
+              ['TikTok-first publishers', 'You want TikTok settings — privacy, interactions, disclosure — handled properly at scheduling time.'],
+              ['Agencies (small)', 'You run a few client workspaces and value a predictable publishing trail.'],
+            ].map(([title, body]) => (
+              <article class="card p-6">
+                <h3 class="text-lg font-bold">{title}</h3>
+                <p class="mt-2 leading-relaxed text-ink-mute">{body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- what's included -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div class="grid gap-10 lg:grid-cols-2">
+          <div>
+            <SectionLabel label="what's included" tone="lime" />
+            <h2 class="display-md mt-4">The whole product — for free, while we are early.</h2>
+            <p class="mt-5 leading-relaxed text-paper/70">
+              Early Access includes the full toolkit: composer with per-network previews,
+              content calendar, media library, scheduling and time slots, publishing status
+              and history, team workspaces and TikTok publishing controls. Everything on
+              the Features page, in other words.
+            </p>
+            <p class="mt-4 leading-relaxed text-paper/70">
+              In exchange we ask for feedback and patience: no SLA during Early Access, and
+              the occasional sharp edge while we smooth things out.
+            </p>
+          </div>
+
+          <ul class="space-y-3">
+            {
+              [
+                ['Free during Early Access', 'No card required. If pricing ever arrives, we announce it in advance — nothing charges silently.'],
+                ['All networks on request', 'TikTok, Bluesky and Mastodon are connected today; other integrations are enabled per workspace on request.'],
+                ['Your data is yours', 'Disconnect channels and delete your account at any time. Details on the Privacy page.'],
+                ['Human support', 'Questions go to a person, typically answered within 3 business days.'],
+              ].map(([title, body]) => (
+                <li class="rounded-2xl border border-ink-line bg-ink-soft/70 p-5">
+                  <h3 class="font-bold">{title}</h3>
+                  <p class="mt-1.5 leading-relaxed text-paper/70">{body}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- onboarding -->
+    <section class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+      <SectionLabel label="how onboarding works" />
+      <h2 class="display-md mt-4">Four steps, one email.</h2>
+      <ol class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          [
+            ['Request', 'Fill in the request form — name, email, role, networks, what you want to publish.'],
+            ['Review', 'We read every request in small batches to keep onboarding quality high.'],
+            ['Invite email', 'If it is a fit, you receive an invite link by email (valid for 7 days).'],
+            ['Set up account', 'Create your account, connect your channels, schedule your first post.'],
+          ].map(([title, body], i) => (
+            <li class="card p-6">
+              <p class="mono-label text-ink-mute">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="mt-3 text-lg font-bold">{title}</h3>
+              <p class="mt-2 leading-relaxed text-ink-mute">{body}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="card mt-8 flex flex-wrap items-center gap-6 border-ink bg-lime/25 p-6">
+        <Mascot size={48} variant="ink-on-lime" />
+        <div class="flex-1">
+          <h3 class="text-lg font-bold">Response time</h3>
+          <p class="mt-1 leading-relaxed text-ink-mute">
+            We review requests in small batches and reply within 3 business days — with a
+            yes and an invite, or with a short explanation of the wait.
+          </p>
+        </div>
+        <a href="/request-access" class="btn btn-dark">Request access</a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

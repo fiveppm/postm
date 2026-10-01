@@ -1,0 +1,65 @@
+---
+import { emails, footerNav, site } from '../data/site';
+import Mascot from './Mascot.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto bg-ink text-paper">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <a href="/" class="flex items-center gap-2.5" aria-label={`${site.name} home`}>
+          <Mascot size={32} variant="lime-on-ink" />
+          <span class="font-display text-xl font-extrabold tracking-tight">Postmonster</span>
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-paper/70">
+          Plan, schedule and publish to every network from one calm calendar.
+          Early Access for creators and small teams.
+        </p>
+        <p class="mono-label mt-6 text-paper/50">// feed the feed.</p>
+      </div>
+
+      {
+        footerNav.map((col) => (
+          <nav aria-label={col.title}>
+            <h2 class="mono-label text-lime">{col.title}</h2>
+            <ul class="mt-4 space-y-2.5">
+              {col.links.map((l) => (
+                <li>
+                  <a
+                    href={l.href}
+                    class="text-sm text-paper/80 underline decoration-transparent transition-colors hover:decoration-paper/60"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 flex flex-col gap-4 border-t border-ink-line pt-8 text-sm text-paper/60">
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <a href={`mailto:${emails.support}`} class="hover:text-paper">{emails.support}</a>
+        <a href={`mailto:${emails.hello}`} class="hover:text-paper">{emails.hello}</a>
+        <a href={`mailto:${emails.privacy}`} class="hover:text-paper">{emails.privacy}</a>
+        <a
+          href={site.sourceCodeUrl}
+          rel="noopener nofollow"
+          target="_blank"
+          class="hover:text-paper">Source code</a
+        >
+      </div>
+      <p class="max-w-3xl text-xs leading-relaxed text-paper/50">
+        TikTok, Instagram, YouTube, Facebook, LinkedIn, X and other names are trademarks of
+        their respective owners. Postmonster is not affiliated with or endorsed by them.
+      </p>
+      <p class="text-xs text-paper/50">
+        © {year} {site.operatorName}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

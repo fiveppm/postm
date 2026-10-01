@@ -1,0 +1,158 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { emails, site } from '../data/site';
+
+const toc = [
+  { id: 'the-service', title: '1. The service' },
+  { id: 'early-access', title: '2. Early Access' },
+  { id: 'account', title: '3. Account and security' },
+  { id: 'acceptable-use', title: '4. Acceptable use' },
+  { id: 'your-content', title: '5. Your content and platform rules' },
+  { id: 'third-party', title: '6. Third-party services' },
+  { id: 'open-source', title: '7. Open source' },
+  { id: 'disclaimers', title: '8. Disclaimers' },
+  { id: 'liability', title: '9. Limitation of liability' },
+  { id: 'termination', title: '10. Termination' },
+  { id: 'law', title: '11. Governing law' },
+  { id: 'contact', title: '12. Contact' },
+];
+---
+
+<LegalLayout
+  title="Terms of Service"
+  description="The terms for using Postmonster: Early Access conditions, account rules, acceptable use, your content and platform rules, open source licensing and liability."
+  canonicalPath="/terms"
+  toc={toc}
+>
+  <p class="note">
+    These terms are a working document for Early Access and are reviewed by the operator.
+    They are a starting point, not legal advice to anyone else. Effective date:
+    {site.effectiveDate}.
+  </p>
+
+  <h2 id="the-service">1. The service</h2>
+  <p>
+    Postmonster is a social media scheduling and publishing tool: you connect your own
+    channel accounts, create posts, preview them per network, schedule them and track
+    their publishing status. The service is operated by {site.legalName} ({site.country}).
+    By creating an account you agree to these terms.
+  </p>
+
+  <h2 id="early-access">2. Early Access</h2>
+  <p>
+    Postmonster is currently in Early Access. During this period:
+  </p>
+  <ul>
+    <li>The service is provided free of charge; no payment details are required.</li>
+    <li>
+      Access is invite-only and granted in small batches. We may change, pause or limit
+      features while we harden the product.
+    </li>
+    <li>
+      There is no SLA: availability, publishing windows and support response times are
+      best effort, though we aim to reply to requests within 3 business days.
+    </li>
+    <li>
+      If pricing is introduced, we will announce it in advance and never charge you
+      silently.
+    </li>
+  </ul>
+
+  <h2 id="account">3. Account and security</h2>
+  <p>
+    You must provide accurate information and keep your login credentials confidential.
+    You are responsible for the activity in your workspace, including the content your
+    team publishes. Tell us promptly at
+    <a href={`mailto:${emails.support}`}>{emails.support}</a> if you suspect unauthorized
+    access.
+  </p>
+
+  <h2 id="acceptable-use">4. Acceptable use</h2>
+  <p>You agree not to use Postmonster to:</p>
+  <ul>
+    <li>send spam or unsolicited bulk content;</li>
+    <li>violate the rules, terms or guidelines of any network you publish to;</li>
+    <li>infringe anyone's rights, including copyright, trademark and privacy;</li>
+    <li>publish unlawful, deceptive or malicious content;</li>
+    <li>probe, disrupt or overload the service or its integrations.</li>
+  </ul>
+  <p>
+    We may limit or suspend accounts that put the service, its users or the connected
+    platforms at risk.
+  </p>
+
+  <h2 id="your-content">5. Your content and platform rules</h2>
+  <p>
+    You own the content you upload and publish. You grant us only the rights needed to
+    store it and deliver it to the networks you choose. You are solely responsible for
+    your content and for complying with the rules of each platform — for example the
+    <a
+      href="https://www.tiktok.com/community-guidelines"
+      rel="noopener nofollow"
+      target="_blank">TikTok Community Guidelines</a
+    > and
+    <a
+      href="https://www.tiktok.com/legal/page/global/bc-policy/en"
+      rel="noopener nofollow"
+      target="_blank">TikTok Branded Content Policy</a
+    >. Commercial content disclosure settings in the tool help you meet platform
+    requirements, but the responsibility for correct disclosure is yours.
+  </p>
+
+  <h2 id="third-party">6. Third-party services</h2>
+  <p>
+    Publishing relies on third-party networks (TikTok, YouTube, Instagram, X and others)
+    and their APIs. Their availability, rate limits and policy changes are outside our
+    control; a post can fail or be rejected by a platform even when the service works as
+    designed. When that happens, we show you the status and the reason we received. Each
+    platform's own terms apply to your accounts there.
+  </p>
+
+  <h2 id="open-source">7. Open source</h2>
+  <p>
+    Postmonster is built on the open-source Postiz project and is licensed under the
+    GNU Affero General Public License v3.0 (AGPL-3.0). The source code of the deployed
+    version is available at <a href={site.sourceCodeUrl}>{site.sourceCodeUrl}</a>. The
+    license gives you rights to the code itself; these terms cover the hosted service.
+  </p>
+
+  <h2 id="disclaimers">8. Disclaimers</h2>
+  <p>
+    The service is provided "as is" and "as available". To the extent permitted by law,
+    we disclaim all warranties, express or implied, including fitness for a particular
+    purpose and non-infringement. We do not warrant that publishing will always succeed
+    or that the service will be uninterrupted.
+  </p>
+
+  <h2 id="liability">9. Limitation of liability</h2>
+  <p>
+    To the extent permitted by law, {site.legalName} is not liable for indirect,
+    incidental or consequential damages, lost profits, lost data or the consequences of
+    content published through the service. Our aggregate liability arising out of these
+    terms is limited to the greater of the amounts you paid us in the 12 months before
+    the claim or EUR 50. Nothing here limits liability that cannot be limited by law.
+  </p>
+
+  <h2 id="termination">10. Termination</h2>
+  <p>
+    You can stop using the service and delete your account at any time (Settings → delete
+    account, with email confirmation). We may suspend or terminate access for material
+    breaches of these terms, with notice where reasonably possible. Sections that by
+    nature should survive (ownership, disclaimers, liability, governing law) survive
+    termination.
+  </p>
+
+  <h2 id="law">11. Governing law</h2>
+  <p>
+    These terms are governed by the laws of {site.country}, without regard to conflict of
+    law rules. Mandatory consumer protections of your country of residence remain
+    unaffected.
+  </p>
+
+  <h2 id="contact">12. Contact</h2>
+  <p>
+    Questions about these terms: <a href={`mailto:${emails.hello}`}>{emails.hello}</a>.
+    Support: <a href={`mailto:${emails.support}`}>{emails.support}</a>. Operator:
+    {site.legalName}, {site.country}.
+  </p>
+</LegalLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const target = `${site.appUrl}/auth/login`;
+---
+
+<!-- Static fallback: nginx in production answers /login with a 301 to the app. -->
+<BaseLayout
+  title="Log in"
+  description="Log in to Postmonster."
+  canonicalPath="/login"
+  noindex={true}
+  refreshTo={target}
+>
+  <main class="flex min-h-screen items-center justify-center px-4">
+    <div class="text-center">
+      <p class="mono-label text-ink-mute">// redirecting</p>
+      <h1 class="display-md mt-4">Log in to Postmonster</h1>
+      <p class="mt-4 text-ink-mute">
+        Taking you to the app — if nothing happens,
+        <a class="link-plain font-medium text-ink" href={target}>continue to the log in page</a>.
+      </p>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,148 @@
+---
+// postmonster: hero visual — a live HTML/CSS calendar mockup (no screenshots).
+// Multi-network on purpose: one composer, one week, every destination.
+// Interactive: typing composer, hover cards, click a day to drop a post, pointer tilt.
+import NetworkIcon from './NetworkIcon.astro';
+
+const composerNetworks = [
+  { icon: 'youtube', name: 'YouTube' },
+  { icon: 'bluesky', name: 'Bluesky' },
+  { icon: 'x', name: 'X' },
+  { icon: 'mastodon', name: 'Mastodon' },
+  { icon: 'wordpress', name: 'WordPress' },
+];
+
+const days = [
+  {
+    label: 'Mon 12',
+    cards: [
+      { icon: 'bluesky', name: 'Bluesky', time: '09:30', title: 'Launch notes', status: 'Published' },
+      { icon: null, name: 'LinkedIn', time: '14:00', title: 'Hiring post', status: 'Scheduled' },
+    ],
+  },
+  {
+    label: 'Tue 13',
+    cards: [
+      { icon: 'youtube', name: 'YouTube', time: '11:00', title: 'Studio tour', status: 'Scheduled' },
+    ],
+  },
+  {
+    label: 'Wed 14',
+    cards: [
+      { icon: 'reddit', name: 'Reddit', time: '10:15', title: 'AMA draft', status: 'Draft' },
+      { icon: 'mastodon', name: 'Mastodon', time: '20:15', title: 'Thread recap', status: 'Scheduled' },
+    ],
+  },
+  {
+    label: 'Thu 15',
+    cards: [
+      { icon: 'wordpress', name: 'WordPress', time: '08:00', title: 'Changelog #12', status: 'Needs check' },
+    ],
+  },
+  {
+    label: 'Fri 16',
+    cards: [
+      { icon: 'x', name: 'X', time: '12:45', title: 'Ship thread', status: 'Scheduled' },
+    ],
+  },
+];
+
+const statusClass: Record<string, string> = {
+  Published: 'bg-lime text-ink',
+  Scheduled: 'border border-ink text-ink',
+  Draft: 'bg-paper-dim text-ink-mute',
+  'Needs check': 'bg-coral text-ink',
+};
+---
+
+<div class="card tilt overflow-hidden shadow-pop" id="hero-mock">
+  <!-- window bar -->
+  <div class="flex flex-wrap items-center justify-between gap-2 border-b border-paper-line bg-paper-dim px-4 py-2.5">
+    <p class="mono-label text-ink-mute">// calendar · week 32</p>
+    <div class="flex items-center gap-1.5">
+      <p class="mono-label rounded-full border border-paper-line bg-white px-2.5 py-1 text-[9px] text-ink-mute">
+        36 networks
+      </p>
+      <p class="mono-label rounded-full border border-paper-line bg-white px-2.5 py-1 text-[9px] text-ink-mute">
+        09:32 · local
+      </p>
+    </div>
+  </div>
+
+  <!-- composer strip (typing demo) -->
+  <div class="flex flex-wrap items-center gap-2 border-b border-paper-line bg-white px-3 py-2.5 sm:px-4">
+    <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-ink font-mono text-[9px] font-bold text-lime">
+      PM
+    </span>
+    <p
+      class="typing min-w-0 flex-1 text-xs leading-snug text-ink sm:text-sm"
+      id="hero-typing"
+      data-text="Summer drop — one caption, tailored per network, scheduled for the week."
+    >
+    </p>
+    <div class="flex items-center gap-1">
+      {
+        composerNetworks.map((n) => (
+          <span
+            class="flex h-6 w-6 items-center justify-center rounded-full border border-paper-line bg-paper text-ink-mute"
+            title={n.name}
+          >
+            <NetworkIcon icon={n.icon} name={n.name} class="h-3 w-3" />
+          </span>
+        ))
+      }
+    </div>
+    <span class="mono-label rounded-full bg-lime px-3 py-1.5 text-[9px] text-ink">Schedule</span>
+  </div>
+
+  <!-- week grid -->
+  <div class="grid grid-cols-3 gap-2 p-3 sm:grid-cols-5 sm:gap-2.5 sm:p-4">
+    {
+      days.map((day, dayIndex) => (
+        <div class="min-w-0">
+          <p class="mono-label mb-2 px-0.5 text-[10px] text-ink-mute">{day.label}</p>
+          <div class="space-y-2" data-day={dayIndex}>
+            {day.cards.map((card, cardIndex) => (
+              <article
+                class="hero-card anim-card rounded-xl border border-paper-line bg-white px-2 py-2"
+                style={`animation-delay: ${120 + (dayIndex * 2 + cardIndex) * 80}ms`}
+              >
+                <div class="flex items-center gap-1.5">
+                  <NetworkIcon icon={card.icon} name={card.name} class="h-3.5 w-3.5 shrink-0 text-[8px] text-ink-mute" />
+                  <p class="mono-label text-[9px] text-ink-mute">{card.time}</p>
+                </div>
+                <p class="mt-1 truncate text-xs font-semibold leading-snug">{card.title}</p>
+                <p class:list={['mono-label mt-1.5 inline-block rounded-full px-1.5 py-0.5 text-[8px]', statusClass[card.status]]}>
+                  {card.status}
+                </p>
+              </article>
+            ))}
+            <div
+              class="drop-zone"
+              role="button"
+              tabindex="0"
+              aria-label={`+ drop — ${day.label} (demo)`}
+              data-drop={dayIndex}
+            >
+              + drop
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- status pipeline -->
+  <div class="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-paper-line bg-paper-dim px-4 py-2.5">
+    <p class="mono-label text-[9px] text-ink-mute">draft</p>
+    <span class="text-ink-mute" aria-hidden="true">→</span>
+    <p class="mono-label text-[9px] text-ink-mute">scheduled</p>
+    <span class="text-ink-mute" aria-hidden="true">→</span>
+    <p class="mono-label text-[9px] text-ink-mute">publishing</p>
+    <span class="text-ink-mute" aria-hidden="true">→</span>
+    <p class="mono-label rounded-full bg-lime px-1.5 py-0.5 text-[9px] text-ink">published</p>
+    <span class="ml-auto mono-label text-[9px] text-ink-mute">// every post keeps its status</span>
+  </div>
+</div>
+
+<script is:inline src="/js/hero.js" defer></script>

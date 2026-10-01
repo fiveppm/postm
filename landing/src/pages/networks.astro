@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import NetworkIcon from '../components/NetworkIcon.astro';
+import { networkIcons } from '../data/network-icons';
+import {
+  groupLabels,
+  groupOrder,
+  networks,
+  postTypeLabels,
+} from '../data/networks';
+
+const hexOf = (icon: string | null) =>
+  icon && networkIcons[icon] ? `#${networkIcons[icon].hex}` : '#5B6270';
+---
+
+<BaseLayout
+  title="Supported networks"
+  description={`Every network Postmonster publishes to: ${networks.length} integrations — TikTok, video and short-form, social, chat, blogs and business — plus custom platforms over webhook.`}
+  canonicalPath="/networks"
+>
+  <Header />
+
+  <main>
+    <section class="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16">
+      <SectionLabel label="networks" />
+      <h1 class="display-lg mt-4">{networks.length} networks. One publishing engine.</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-mute">
+        This is the full integration set of the publishing engine — nothing is listed that
+        does not exist in code. <strong class="font-semibold text-ink">Available</strong> means
+        the app keys are configured and connecting was verified in production;
+        <strong class="font-semibold text-ink">On request</strong> means the integration ships
+        with the engine and is enabled for your workspace when you ask for it.
+      </p>
+
+      <!-- group filter -->
+      <div class="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filter by group">
+        <button
+          type="button"
+          class="filter-chip rounded-full border border-ink bg-ink px-4 py-2 text-sm font-medium text-paper"
+          data-filter="all"
+          aria-pressed="true">All</button
+        >
+        {
+          groupOrder.map((g) => (
+            <button
+              type="button"
+              class="filter-chip rounded-full border border-paper-line bg-white px-4 py-2 text-sm font-medium transition-colors hover:border-ink"
+              data-filter={g}
+              aria-pressed="false"
+            >
+              {groupLabels[g]}
+            </button>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      <div class="space-y-12">
+        {
+          groupOrder.map((group) => (
+            <section class="network-group" data-group={group} aria-labelledby={`group-${group}`}>
+              <h2 id={`group-${group}`} class="display-md">
+                {groupLabels[group]}
+              </h2>
+              <ul class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {networks
+                  .filter((n) => n.group === group)
+                  .map((n) => (
+                    <li
+                      class="net-tile card card-hover p-5"
+                      style={`--net-hex:${hexOf(n.icon)}`}
+                      id={n.slug}
+                    >
+                      <div class="flex items-start gap-3">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-paper-dim">
+                          <NetworkIcon
+                            icon={n.icon}
+                            name={n.name}
+                            class="net-icon h-5 w-5 text-[10px]"
+                          />
+                        </span>
+                        <div class="min-w-0 flex-1">
+                          <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <h3 class="text-base font-bold leading-tight">{n.name}</h3>
+                            <span
+                              class:list={[
+                                'mono-label rounded-full px-2 py-0.5 text-[9px]',
+                                n.status === 'available'
+                                  ? 'bg-lime text-ink'
+                                  : 'bg-paper-dim text-ink-mute',
+                              ]}
+                            >
+                              {n.status === 'available' ? 'Available' : 'On request'}
+                            </span>
+                          </div>
+                          <ul class="mt-2.5 flex flex-wrap gap-1.5">
+                            {n.postTypes.map((t) => (
+                              <li class="mono-label rounded-full border border-paper-line px-2 py-0.5 text-[9px] text-ink-mute">
+                                {postTypeLabels[t]}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+
+      <!-- custom platforms -->
+      <section id="custom-platforms" class="mt-16 scroll-mt-24">
+        <div class="overflow-hidden rounded-[2rem] border border-ink bg-ink text-paper">
+          <div class="grid gap-10 px-6 py-12 sm:px-10 lg:grid-cols-[1.1fr_1fr]">
+            <div>
+              <SectionLabel label="your own" tone="lime" />
+              <h2 class="display-md mt-4">Custom platforms</h2>
+              <p class="mt-5 leading-relaxed text-paper/70">
+                Anything we do not integrate with natively can still live in the same
+                calendar. A custom platform delivers posts over webhook to a destination
+                you control — your own service, an automation tool, an internal queue —
+                and reports publishing status back.
+              </p>
+              <p class="mt-4 leading-relaxed text-paper/70">
+                Posts are validated against the platform's content rules before scheduling,
+                payloads are versioned and signed (HMAC-SHA256), and status can be confirmed
+                synchronously or by a callback URL. Custom channels appear in the composer,
+                calendar and publications history like any other channel.
+              </p>
+            </div>
+            <ul class="space-y-3">
+              {
+                [
+                  ['Webhook delivery', 'Signed JSON payload, retry policy, idempotent delivery id.'],
+                  ['Your content rules', 'Media types, caption limits and required fields — enforced in the composer.'],
+                  ['Status callbacks', 'Sync (HTTP 2xx = published) or async callbacks with progress and evidence.'],
+                  ['Test button', 'Send a test payload before you trust it with real posts.'],
+                ].map(([title, body]) => (
+                  <li class="rounded-2xl border border-ink-line bg-ink-soft/70 p-4">
+                    <h3 class="font-bold">{title}</h3>
+                    <p class="mt-1 text-sm leading-relaxed text-paper/70">{body}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script is:inline src="/js/networks-filter.js" defer></script>

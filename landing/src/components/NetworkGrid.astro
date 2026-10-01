@@ -1,0 +1,50 @@
+---
+import { groupLabels, groupOrder, networks, type NetworkGroup } from '../data/networks';
+import { networkIcons } from '../data/network-icons';
+import NetworkIcon from './NetworkIcon.astro';
+
+interface Props {
+  /** restrict to some groups (home page shows all) */
+  groups?: NetworkGroup[];
+  compact?: boolean;
+  idPrefix?: string;
+}
+
+const { groups = groupOrder, compact = false, idPrefix = 'net' } = Astro.props;
+
+const hexOf = (icon: string | null) =>
+  icon && networkIcons[icon] ? `#${networkIcons[icon].hex}` : '#5B6270';
+---
+
+<div class="space-y-10">
+  {
+    groups.map((group) => (
+      <section aria-labelledby={`${idPrefix}-${group}`}>
+        <h3 id={`${idPrefix}-${group}`} class="mono-label mb-4 text-ink-mute">
+          {groupLabels[group]}
+        </h3>
+        <ul class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {networks
+            .filter((n) => n.group === group)
+            .map((n) => (
+              <li
+                class="net-tile card card-hover flex items-center gap-3 px-3 py-2.5"
+                style={`--net-hex:${hexOf(n.icon)}`}
+                id={`${idPrefix}-${n.slug}`}
+              >
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-paper-dim">
+                  <NetworkIcon icon={n.icon} name={n.name} class="net-icon h-[18px] w-[18px] text-[10px]" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block truncate text-sm font-semibold leading-tight">{n.name}</span>
+                  {!compact && n.status === 'on-request' && (
+                    <span class="mono-label mt-0.5 block text-[10px] text-ink-mute">On request</span>
+                  )}
+                </span>
+              </li>
+            ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>

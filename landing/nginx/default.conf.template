@@ -1,0 +1,59 @@
+# postmonster: landing server config (rendered from /etc/nginx/templates by the
+# official nginx image entrypoint; ${VAR} placeholders come from container env).
+
+server {
+  listen 80;
+  server_name www.postmonster.xyz;
+  return 301 https://postmonster.xyz$request_uri;
+}
+
+server {
+  listen 80 default_server;
+  server_name postmonster.xyz;
+
+  root /usr/share/nginx/html;
+  index index.html;
+
+  include /etc/nginx/conf.d/security-headers.conf;
+
+  location = /healthz {
+    access_log off;
+    default_type text/plain;
+    return 200 "ok";
+  }
+
+  # app login lives on the application domain
+  location = /login {
+    return 302 ${PUBLIC_APP_URL}/auth/login;
+  }
+
+  # convenience alias for the sitemap (Astro writes sitemap-index.xml)
+  location = /sitemap.xml {
+    return 302 /sitemap-index.xml;
+  }
+
+  # hashed build assets: immutable cache
+  location ^~ /_astro/ {
+    include /etc/nginx/conf.d/security-headers.conf;
+    add_header Cache-Control "public, max-age=31536000, immutable" always;
+    try_files $uri =404;
+  }
+
+  location ~* \.(?:ico|png|jpg|jpeg|gif|webp|svg|woff2)$ {
+    include /etc/nginx/conf.d/security-headers.conf;
+    add_header Cache-Control "public, max-age=604800" always;
+    try_files $uri =404;
+  }
+
+  location / {
+    include /etc/nginx/conf.d/security-headers.conf;
+    add_header Cache-Control "no-cache" always;
+    try_files $uri $uri/ $uri.html =404;
+  }
+
+  error_page 404 /404.html;
+
+  location = /404.html {
+    internal;
+  }
+}

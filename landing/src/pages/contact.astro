@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { emails } from '../data/site';
+
+const contacts = [
+  {
+    email: emails.support,
+    title: 'Support',
+    body: 'Something broken, unclear or missing in the product. Include your workspace name and what you expected to happen.',
+  },
+  {
+    email: emails.hello,
+    title: 'Everything else',
+    body: 'Questions about Early Access, partnerships, press — or just a hello.',
+  },
+  {
+    email: emails.privacy,
+    title: 'Privacy',
+    body: 'Data requests, deletion questions and privacy policy clarifications. Also where to ask for an export of your data.',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact Postmonster: support, general questions and privacy requests. Human replies, typically within 3 business days."
+  canonicalPath="/contact"
+>
+  <Header />
+
+  <main>
+    <section class="mx-auto max-w-6xl px-4 pt-12 sm:px-6 sm:pt-16">
+      <SectionLabel label="contact" />
+      <h1 class="display-lg mt-4 max-w-2xl">Talk to a human.</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-ink-mute">
+        No ticket bots, no chat widgets. Write to the right inbox below and we will get
+        back to you — typically within 3 business days, often faster.
+      </p>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          contacts.map((c) => (
+            <article class="card card-hover p-6">
+              <p class="mono-label text-ink-mute">{c.title.toLowerCase()}</p>
+              <h2 class="mt-3 text-xl font-bold">
+                <a class="link-plain" href={`mailto:${c.email}`}>
+                  {c.email}
+                </a>
+              </h2>
+              <p class="mt-3 leading-relaxed text-ink-mute">{c.body}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="card mt-10 flex flex-wrap items-center gap-6 border-ink bg-lime/25 p-6">
+        <div class="flex-1">
+          <h2 class="text-lg font-bold">Looking for access?</h2>
+          <p class="mt-1 leading-relaxed text-ink-mute">
+            Access requests go through the form — it gives us the context to onboard you
+            properly. Same human on the other end.
+          </p>
+        </div>
+        <a href="/request-access" class="btn btn-dark">Request access</a>
+      </div>
+
+      <p class="mono-label mt-10 text-ink-mute">
+        // expected response time: 3 business days
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div class="grid gap-10 lg:grid-cols-2">
+        <div>
+          <SectionLabel label="good to include" />
+          <ul class="mt-6 space-y-3 leading-relaxed text-ink-mute">
+            <li class="flex gap-3">
+              <span class="mono-label mt-1 shrink-0 text-ink">01</span>
+              <span>Your workspace name and the email on the account</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mono-label mt-1 shrink-0 text-ink">02</span>
+              <span>Which network and which post — a link helps</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mono-label mt-1 shrink-0 text-ink">03</span>
+              <span>What you expected, and what actually happened</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <SectionLabel label="where we are not" />
+          <p class="mt-6 leading-relaxed text-ink-mute">
+            We do not run a public chat or a forum yet — email is the reliable channel
+            while we are small. If you found a security issue, write to
+            <a class="link-plain font-medium text-ink" href={`mailto:${emails.privacy}`}>
+              {emails.privacy}</a
+            > and we will treat it accordingly.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

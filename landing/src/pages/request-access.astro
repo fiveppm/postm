@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Mascot from '../components/Mascot.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { emails, site } from '../data/site';
+import { groupLabels, groupOrder, networks } from '../data/networks';
+---
+
+<BaseLayout
+  title="Request access"
+  description="Request an invite to Postmonster Early Access. We onboard creators and small teams in small batches and reply within 3 business days."
+  canonicalPath="/request-access"
+>
+  <Header />
+
+  <main>
+    <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+      <div class="grid gap-12 lg:grid-cols-[1fr_1.15fr]">
+        <!-- copy -->
+        <div>
+          <SectionLabel label="request access" />
+          <h1 class="display-lg mt-4">Join Early Access.</h1>
+          <p class="mt-6 max-w-md text-lg leading-relaxed text-ink-mute">
+            Tell us who you are and what you publish. We review requests in small batches
+            and reply within 3 business days.
+          </p>
+
+          <ol class="mt-10 space-y-4">
+            {
+              [
+                ['Request', 'This form — about two minutes.'],
+                ['Review', 'A human reads it. We onboard in small batches to keep quality high.'],
+                ['Invite email', 'If it is a fit, your invite link arrives by email.'],
+                ['Set up account', 'Create the workspace, connect channels, schedule the first post.'],
+              ].map(([title, body], i) => (
+                <li class="flex gap-4">
+                  <span class="mono-label mt-1 text-ink-mute">{String(i + 1).padStart(2, '0')}</span>
+                  <span>
+                    <span class="block font-semibold">{title}</span>
+                    <span class="mt-0.5 block text-sm leading-relaxed text-ink-mute">{body}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+
+          <div class="card mt-10 p-5">
+            <p class="text-sm leading-relaxed text-ink-mute">
+              Early Access is free — no card, no charges while we harden the product.
+              Questions first? Write to
+              <a class="link-plain font-medium text-ink" href={`mailto:${emails.hello}`}>{emails.hello}</a>.
+            </p>
+          </div>
+        </div>
+
+        <!-- form -->
+        <div>
+          <div class="card p-6 sm:p-8">
+            <form
+              id="access-form"
+              class="space-y-6"
+              data-api={site.apiBase}
+              novalidate
+            >
+              <!-- honeypot: humans never see this field -->
+              <div class="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                <label for="website">Website</label>
+                <input
+                  type="text"
+                  id="website"
+                  name="website"
+                  tabindex="-1"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="name" class="mono-label text-ink-mute">Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    maxlength="120"
+                    autocomplete="name"
+                    class="mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-base outline-none transition-colors focus:border-ink"
+                  />
+                  <p class="mt-1.5 hidden text-sm text-coral-deep" data-error-for="name"></p>
+                </div>
+                <div>
+                  <label for="email" class="mono-label text-ink-mute">Email *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    maxlength="254"
+                    autocomplete="email"
+                    class="mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-base outline-none transition-colors focus:border-ink"
+                  />
+                  <p class="mt-1.5 hidden text-sm text-coral-deep" data-error-for="email"></p>
+                </div>
+              </div>
+
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="role" class="mono-label text-ink-mute">Role *</label>
+                  <select
+                    id="role"
+                    name="role"
+                    required
+                    class="mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-base outline-none transition-colors focus:border-ink"
+                  >
+                    <option value="">Choose one…</option>
+                    <option value="creator">Creator</option>
+                    <option value="small-team">Small team</option>
+                    <option value="agency">Agency</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <p class="mt-1.5 hidden text-sm text-coral-deep" data-error-for="role"></p>
+                </div>
+                <div>
+                  <label for="teamSize" class="mono-label text-ink-mute">Team size</label>
+                  <select
+                    id="teamSize"
+                    name="teamSize"
+                    class="mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-base outline-none transition-colors focus:border-ink"
+                  >
+                    <option value="1">Just me</option>
+                    <option value="2-5">2–5</option>
+                    <option value="6-15">6–15</option>
+                    <option value="16+">16+</option>
+                  </select>
+                </div>
+              </div>
+
+              <fieldset>
+                <legend class="mono-label text-ink-mute">Main networks</legend>
+                <p class="mt-1 text-sm text-ink-mute">Pick what you publish to today.</p>
+                <div class="mt-3 space-y-4">
+                  {
+                    groupOrder.map((group) => (
+                      <div>
+                        <p class="mono-label text-[10px] text-ink-mute">{groupLabels[group]}</p>
+                        <div class="mt-1.5 flex flex-wrap gap-1.5">
+                          {networks
+                            .filter((n) => n.group === group)
+                            .map((n) => (
+                              <label class="cursor-pointer">
+                                <input
+                                  type="checkbox"
+                                  name="networks"
+                                  value={n.slug}
+                                  class="peer sr-only"
+                                />
+                                <span class="inline-flex rounded-full border border-paper-line bg-white px-3 py-1.5 text-sm font-medium transition-colors peer-checked:border-ink peer-checked:bg-lime peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-coral">
+                                  {n.name}
+                                </span>
+                              </label>
+                            ))}
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </fieldset>
+
+              <div>
+                <label for="useCase" class="mono-label text-ink-mute"
+                  >What will you use Postmonster for?</label
+                >
+                <textarea
+                  id="useCase"
+                  name="useCase"
+                  rows="4"
+                  maxlength="2000"
+                  class="mt-2 w-full rounded-xl border border-paper-line bg-white px-4 py-3 text-base outline-none transition-colors focus:border-ink"
+                ></textarea>
+              </div>
+
+              <div>
+                <label class="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="consent"
+                    name="consent"
+                    required
+                    class="mt-1 h-4 w-4 shrink-0 accent-[#0E0F13]"
+                  />
+                  <span class="text-sm leading-relaxed">
+                    I agree to the <a href="/terms" class="link-plain font-medium">Terms of Service</a> and
+                    <a href="/privacy" class="link-plain font-medium">Privacy Policy</a>. *
+                  </span>
+                </label>
+                <p class="mt-1.5 hidden text-sm text-coral-deep" data-error-for="consent"></p>
+              </div>
+
+              <p id="form-error" class="hidden rounded-xl border border-coral bg-coral/10 px-4 py-3 text-sm text-ink" role="alert"></p>
+
+              <button type="submit" id="form-submit" class="btn btn-primary w-full">
+                <span data-label>Send request</span>
+              </button>
+
+              <p class="text-xs leading-relaxed text-ink-mute">
+                No spam, no newsletter, no third-party trackers. Your request goes straight
+                to the operator of Postmonster.
+              </p>
+            </form>
+
+            <!-- success state -->
+            <div id="form-success" class="hidden text-center" role="status" aria-live="polite">
+              <Mascot size={72} variant="ink-on-lime" class="mx-auto" />
+              <h2 class="display-md mt-6" tabindex="-1" id="success-heading">
+                We've got your request.
+              </h2>
+              <p class="mx-auto mt-4 max-w-sm leading-relaxed text-ink-mute">
+                We review requests in small batches and reply within 3 business days. Watch
+                your inbox — the invite link will come from us by email.
+              </p>
+              <a href="/" class="btn btn-ghost mt-8">Back to home</a>
+            </div>
+          </div>
+
+          <!-- no-JS fallback -->
+          <noscript>
+            <div class="card mt-6 p-6">
+              <h2 class="text-lg font-bold">The form needs JavaScript</h2>
+              <p class="mt-2 text-sm leading-relaxed text-ink-mute">
+                Email <a class="link-plain" href={`mailto:${emails.hello}`}>{emails.hello}</a>
+                with your name, role, the networks you publish to, team size and what you
+                want to use Postmonster for. We reply within 3 business days.
+              </p>
+            </div>
+            <style>
+              #access-form {
+                display: none;
+              }
+            </style>
+          </noscript>
+
+          <p class="sr-only" aria-live="polite" id="form-status"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<script is:inline src="/js/access-form.js" defer></script>

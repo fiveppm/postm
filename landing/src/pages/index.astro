@@ -1,0 +1,373 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Mascot from '../components/Mascot.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import CalendarMockup from '../components/CalendarMockup.astro';
+import NetworkGrid from '../components/NetworkGrid.astro';
+import NetworkMarquee from '../components/NetworkMarquee.astro';
+import { networks } from '../data/networks';
+
+const totalNetworks = networks.length;
+
+const steps = [
+  {
+    n: '01',
+    title: 'Connect your channels',
+    body: 'Authorize the accounts you post from, once per network. Disconnecting a channel revokes its access.',
+  },
+  {
+    n: '02',
+    title: 'Create once, tailor per network',
+    body: 'Write the post in one composer, adjust media, caption and settings per network, and preview how it will look before it goes out.',
+  },
+  {
+    n: '03',
+    title: 'Schedule and track',
+    body: 'Drop posts into the calendar or use time slots. Publishing status is tracked per post — scheduled, published, failed, needs check.',
+  },
+];
+
+const features = [
+  {
+    icon: 'calendar',
+    title: 'Visual content calendar',
+    body: 'See the week at a glance. Drag posts between days, spot gaps, keep every channel on one grid.',
+  },
+  {
+    icon: 'sliders',
+    title: 'Composer with per-network previews',
+    body: 'One editor, per-network settings and previews. What you approve is what gets published.',
+  },
+  {
+    icon: 'image',
+    title: 'Media library',
+    body: 'Upload once, reuse everywhere. Images and videos stay in your workspace library.',
+  },
+  {
+    icon: 'clock',
+    title: 'Scheduling & time slots',
+    body: 'Schedule a post for an exact time or fill recurring slots. Your local time, clearly shown.',
+  },
+  {
+    icon: 'status',
+    title: 'Publishing status & history',
+    body: 'Every post carries its state: scheduled, publishing, published, failed or needs check — with a readable reason when something fails.',
+  },
+  {
+    icon: 'users',
+    title: 'Team workspaces',
+    body: 'Invite your team to one workspace. Shared calendar, shared media, shared responsibility.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is it free?',
+    a: 'Yes, during Early Access. We are not charging while we onboard small batches and harden the product. If that ever changes, we will say so in advance — no silent charges.',
+  },
+  {
+    q: 'Why is access limited?',
+    a: 'We onboard in small batches to keep quality high. Publishing to real accounts is unforgiving, so every workspace gets a real review and a real onboarding pass instead of an open signup flood.',
+  },
+  {
+    q: 'Which networks are supported?',
+    a: `All ${totalNetworks} networks listed on the Networks page — the full integration set of the publishing engine, plus custom platforms over webhook. TikTok, Bluesky and Mastodon are connected in production today; the rest are enabled per workspace on request.`,
+  },
+  {
+    q: 'Is my data safe?',
+    a: 'We store what we need to schedule and publish your posts: account details, your content and per-network tokens for connected channels. Tokens are removed when you disconnect a channel, and we run no third-party trackers on this site.',
+  },
+  {
+    q: 'Can I delete my account?',
+    a: 'Yes. From Settings you can delete your account and workspace data at any time: connected channels are revoked immediately and content is removed (backups age out within 30 days).',
+  },
+  {
+    q: 'Is it open source?',
+    a: 'Yes. Postmonster is built on the open-source Postiz project and is licensed under AGPL-3.0. The link to the source code is in the footer of this site.',
+  },
+];
+
+const featureIconPaths: Record<string, string> = {
+  calendar: 'M7 3v3m10-3v3M4.5 9.5h15M6 5.5h12a1.5 1.5 0 0 1 1.5 1.5v12A1.5 1.5 0 0 1 18 20.5H6A1.5 1.5 0 0 1 4.5 19V7A1.5 1.5 0 0 1 6 5.5Z',
+  sliders: 'M5 8h8m4 0h2M5 16h2m4 0h8M13 5.5v5M9 13.5v5',
+  image: 'M4.5 6.5h15v11h-15zM4.5 15l4-4 3 3 3-3 5 5M9 10.2h.01',
+  clock: 'M12 7.5V12l3 2M20.5 12a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0Z',
+  status: 'M12 8v4l2.5 2.5M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 6v3.5H8',
+  users: 'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.5 19a5.5 5.5 0 0 1 11 0M15.5 5.4a3 3 0 0 1 0 5.2M16.5 13.6A5.5 5.5 0 0 1 20.5 19',
+};
+---
+
+<BaseLayout
+  title="Postmonster — Feed the feed."
+  description="Plan, schedule and publish to every network from one calm calendar. Early Access for creators and small teams."
+  canonicalPath="/"
+>
+  <Header />
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="relative overflow-hidden">
+      <div
+        class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(60%_120%_at_80%_0%,rgba(200,245,96,0.35),transparent_70%)]"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-12 sm:px-6 sm:pt-16 lg:grid-cols-[1.02fr_1fr] lg:gap-10 lg:pb-24">
+        <div>
+          <SectionLabel label="early access · invite only" />
+          <h1 class="display-xl mt-5">Feed the<br /> <span class="marker">feed.</span></h1>
+          <p class="mt-6 max-w-lg text-lg leading-relaxed text-ink-mute sm:text-xl">
+            Plan, schedule and publish to every network from one calm calendar.
+            Early Access for creators and small teams.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="/request-access" class="btn btn-primary">Request access</a>
+            <a href="/login" class="btn btn-ghost">Log in</a>
+          </div>
+          <p class="mono-label mt-6 text-ink-mute">
+            free during early access · no card · {totalNetworks} networks
+          </p>
+        </div>
+
+        <div data-reveal>
+          <CalendarMockup />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NETWORK BAND ============ -->
+    <NetworkMarquee />
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <SectionLabel label="how it works" tone="lime" />
+        <h2 class="display-lg mt-4 max-w-2xl">From idea to published, without the scramble.</h2>
+        <div class="mt-10 grid gap-8 md:grid-cols-3">
+          {
+            steps.map((s, i) => (
+              <article data-reveal style={`--reveal-delay: ${i * 90}ms`}>
+                <p class="mono-label text-lime">{s.n}</p>
+                <h3 class="mt-3 text-xl font-bold">{s.title}</h3>
+                <p class="mt-3 leading-relaxed text-paper/70">{s.body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURES ============ -->
+    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <SectionLabel label="what you get" />
+          <h2 class="display-lg mt-4 max-w-xl">A quiet toolkit for loud feeds.</h2>
+        </div>
+        <a href="/features" class="btn btn-ghost">All features</a>
+      </div>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          features.map((f, i) => (
+            <article
+              class="card card-hover p-6"
+              data-reveal
+              style={`--reveal-delay: ${(i % 3) * 80}ms`}
+            >
+              <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-lime">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0E0F13"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d={featureIconPaths[f.icon]} />
+                </svg>
+              </span>
+              <h3 class="mt-4 text-lg font-bold">{f.title}</h3>
+              <p class="mt-2 leading-relaxed text-ink-mute">{f.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============ DEFERRED POSTING ============ -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr]">
+          <div>
+            <SectionLabel label="deferred posting, done properly" tone="lime" />
+            <h2 class="display-lg mt-4">Plan it once. It ships everywhere.</h2>
+            <p class="mt-6 max-w-xl leading-relaxed text-paper/70">
+              Postmonster is a scheduling engine for many destinations at once. You set the
+              plan on one calendar — the system publishes network by network, in your local
+              time, and keeps an honest record of what actually happened.
+            </p>
+
+            <!-- status pipeline -->
+            <div class="mt-8 flex flex-wrap items-center gap-x-2.5 gap-y-2 rounded-2xl border border-ink-line bg-ink-soft/70 px-5 py-4">
+              <p class="mono-label text-[10px] text-paper/60">draft</p>
+              <span class="text-paper/40" aria-hidden="true">→</span>
+              <p class="mono-label text-[10px] text-paper/60">scheduled</p>
+              <span class="text-paper/40" aria-hidden="true">→</span>
+              <p class="mono-label text-[10px] text-paper/60">publishing</p>
+              <span class="text-paper/40" aria-hidden="true">→</span>
+              <p class="mono-label rounded-full bg-lime px-2 py-1 text-[10px] text-ink">published</p>
+              <p class="mono-label ml-auto text-[10px] text-coral">failed / needs check</p>
+            </div>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-2">
+            {
+              [
+                ['Schedule to the minute', 'Exact times, your timezone, clearly shown. Confirm once — the rest is ours.'],
+                ['Time slots & recurring', 'Define the slots your week needs and drop posts into them instead of picking dates one by one.'],
+                ['Status you can trust', 'Scheduled, publishing, published, failed, needs check — with a readable reason when something fails, and a retry.'],
+                ['One composer, every network', 'Write once, tailor per network with real previews, and schedule the whole set together.'],
+              ].map(([title, body], i) => (
+                <article
+                  class="rounded-2xl border border-ink-line bg-ink-soft/70 p-5"
+                  data-reveal
+                  style={`--reveal-delay: ${i * 70}ms`}
+                >
+                  <h3 class="text-lg font-bold">{title}</h3>
+                  <p class="mt-2 leading-relaxed text-paper/70">{body}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NETWORKS ============ -->
+    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <SectionLabel label="supported networks" />
+          <h2 class="display-lg mt-4">{totalNetworks} networks. One calendar.</h2>
+          <p class="mt-4 max-w-2xl leading-relaxed text-ink-mute">
+            Every integration the publishing engine ships with — video, social, chat,
+            blogs and business. Connected in production today: TikTok, Bluesky, Mastodon.
+            Everything else is enabled per workspace on request.
+          </p>
+        </div>
+        <a href="/networks" class="btn btn-ghost">Network details</a>
+      </div>
+
+      <div class="mt-10">
+        <NetworkGrid idPrefix="home-net" />
+      </div>
+
+      <!-- custom platforms tile -->
+      <a
+        href="/networks#custom-platforms"
+        class="card card-hover mt-6 flex items-center gap-4 border-ink bg-lime/25 p-5"
+      >
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-ink text-lime">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M12 4v5m0 6v5M4 12h5m6 0h5M7.5 7.5l3 3m3 3 3 3m0-9-3 3m-3 3-3 3"></path>
+          </svg>
+        </span>
+        <span>
+          <span class="block text-lg font-bold">Custom platforms</span>
+          <span class="block text-sm text-ink-mute">Connect your own destination over webhook.</span>
+        </span>
+      </a>
+    </section>
+
+    <!-- ============ EARLY ACCESS ============ -->
+    <section class="bg-ink text-paper">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+        <div class="grid items-start gap-10 lg:grid-cols-[1.1fr_1fr]">
+          <div>
+            <SectionLabel label="early access" tone="lime" />
+            <h2 class="display-lg mt-4">Small batches on purpose.</h2>
+            <p class="mt-6 max-w-xl leading-relaxed text-paper/70">
+              Postmonster is in Early Access: free while we harden the product, and gated
+              because we onboard in small batches to keep quality high. Requests are read
+              by a human — the same human who answers support.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <a href="/request-access" class="btn btn-on-dark">Request access</a>
+              <a href="/early-access" class="btn btn-ghost-on-dark">How it works</a>
+            </div>
+          </div>
+
+          <ol class="space-y-3">
+            {
+              [
+                ['Request', 'Tell us who you are and what you publish. Two minutes.'],
+                ['Review', 'We read every request in small batches — reply within 3 business days.'],
+                ['Invite email', 'If it is a fit, you get an invite link for your workspace.'],
+                ['Set up account', 'Create your account, connect channels, schedule your first post.'],
+              ].map(([title, body], i) => (
+                <li class="flex gap-4 rounded-2xl border border-ink-line bg-ink-soft/70 p-4">
+                  <span class="mono-label mt-0.5 text-lime">{String(i + 1).padStart(2, '0')}</span>
+                  <span>
+                    <span class="block font-bold">{title}</span>
+                    <span class="mt-1 block text-sm leading-relaxed text-paper/70">{body}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
+      <SectionLabel label="faq" />
+      <h2 class="display-lg mt-4">Straight answers.</h2>
+      <div class="mt-8 space-y-3">
+        {
+          faqs.map((f) => (
+            <details class="card px-5 py-4">
+              <summary class="cursor-pointer list-none text-lg font-bold marker:hidden">
+                {f.q}
+              </summary>
+              <p class="mt-3 leading-relaxed text-ink-mute">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+      <div class="relative overflow-hidden rounded-[2rem] border border-ink bg-lime px-6 py-14 text-center sm:px-12">
+        <Mascot size={56} variant="ink-on-lime" class="mx-auto" />
+        <h2 class="display-lg mt-6">Feed the feed.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed">
+          One calm calendar for every network you publish to. Request access and we will
+          get back to you within 3 business days.
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/request-access" class="btn btn-dark">Request access</a>
+          <a href="/login" class="btn btn-ghost">Log in</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
