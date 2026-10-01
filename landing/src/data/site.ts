@@ -15,9 +15,8 @@ export const site = {
   sourceCodeUrl:
     env.PUBLIC_SOURCE_CODE_URL ?? 'https://github.com/fiveppm/postm',
   operatorName: env.PUBLIC_OPERATOR_NAME ?? 'Postmonster',
-  legalName: env.PUBLIC_OPERATOR_LEGAL_NAME ?? '[OPERATOR_LEGAL_NAME]',
-  country: env.PUBLIC_OPERATOR_COUNTRY ?? '[COUNTRY/STATE]',
-  effectiveDate: env.PUBLIC_EFFECTIVE_DATE ?? '[EFFECTIVE_DATE]',
+  legalName: env.PUBLIC_OPERATOR_LEGAL_NAME ?? 'Postmonster',
+  effectiveDate: env.PUBLIC_EFFECTIVE_DATE ?? 'October 1, 2026',
 } as const;
 
 export const emails = {
