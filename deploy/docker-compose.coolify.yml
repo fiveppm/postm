@@ -142,6 +142,32 @@ services:
         limits:
           memory: 3g
 
+  # postmonster: public marketing site (postmonster.xyz) - static nginx image
+  # built from the landing/ sources (Astro). It lives in this compose file on
+  # purpose: Coolify only draws its "Domains for <service>" field for services
+  # defined here. The domain string MUST include the container port, e.g.
+  #   https://postmonster.xyz:80,https://www.postmonster.xyz:80
+  # without the port Traefik gets no loadbalancer.server.port label and the
+  # site answers 504 on every path (docs/deploy.md, section 3b).
+  landing:
+    image: ghcr.io/fiveppm/postmonster-landing:${LANDING_IMAGE_TAG:-latest}
+    restart: unless-stopped
+    expose:
+      - '80'
+    networks:
+      # Traefik's shared proxy network - see the note at the app service.
+      - coolify
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1/healthz']
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          memory: 128m
+
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
