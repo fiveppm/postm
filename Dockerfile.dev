@@ -35,4 +35,6 @@ COPY var/docker/nginx.conf /etc/nginx/nginx.conf
 RUN pnpm install
 RUN NODE_OPTIONS="--max-old-space-size=4096" pnpm run build
 
-CMD ["sh", "-c", "nginx && pnpm run pm2"]
+# postmonster: resilient boot (retries prisma db push, keeps going when one
+# pm2 app fails) - see var/docker/docker-start.sh
+CMD ["sh", "/app/var/docker/docker-start.sh"]
