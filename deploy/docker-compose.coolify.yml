@@ -18,6 +18,15 @@ services:
     # image was pulled first (fixed code never reached production).
     pull_policy: always
     restart: unless-stopped
+    labels:
+      # postmonster: the app container sits on 4 networks (coolify + project
+      # db/temporal nets) and modern Docker inspect exposes no NetworkSettings
+      # NetworkID, so Traefik cannot match the network by ID and falls back to
+      # "first network it finds" - a random pick on every config rebuild. Three
+      # of the four addresses are not routable from coolify-proxy, so the dial
+      # hangs 30s and the site answers 504 (works/flaps between deploys). Pin
+      # the network Traefik must use. See docs/decisions.md, 2026-10-13.
+      - traefik.docker.network=coolify
     environment:
       # === Required URLs (no trailing slash)
       MAIN_URL: ${MAIN_URL:-https://app.postmonster.xyz}
@@ -159,6 +168,10 @@ services:
     # reuse a cached image - force a pull on every `up`.
     pull_policy: always
     restart: unless-stopped
+    labels:
+      # postmonster: same pin as the app service - keep Traefik on the shared
+      # network even if this service ever grows more networks.
+      - traefik.docker.network=coolify
     expose:
       - '80'
     networks:
