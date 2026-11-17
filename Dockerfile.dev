@@ -8,6 +8,10 @@ ARG NEXT_PUBLIC_BACKEND_URL
 ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
 ARG NEXT_PUBLIC_UPLOAD_STATIC_DIRECTORY
 ENV NEXT_PUBLIC_UPLOAD_STATIC_DIRECTORY=$NEXT_PUBLIC_UPLOAD_STATIC_DIRECTORY
+# postmonster: optional-feature flags (libraries/helpers/.../postmonster.features.ts)
+# are also inlined at build time; a runtime env in Coolify has NO effect on them.
+ARG NEXT_PUBLIC_FEATURE_PUBLIC_API=false
+ENV NEXT_PUBLIC_FEATURE_PUBLIC_API=$NEXT_PUBLIC_FEATURE_PUBLIC_API
 # postmonster: evaluated by next.config.js redirects/rewrites at build time.
 ARG STORAGE_PROVIDER=local
 ENV STORAGE_PROVIDER=$STORAGE_PROVIDER

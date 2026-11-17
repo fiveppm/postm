@@ -70,6 +70,7 @@ jobs:
             NEXT_PUBLIC_VERSION=${{ github.ref_name }}
             NEXT_PUBLIC_BACKEND_URL=https://app.postmonster.xyz/api
             NEXT_PUBLIC_UPLOAD_STATIC_DIRECTORY=uploads
+            NEXT_PUBLIC_FEATURE_PUBLIC_API=true
             STORAGE_PROVIDER=local
 
       - name: Summary
